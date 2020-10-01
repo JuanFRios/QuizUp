@@ -2,6 +2,10 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('category-name');
 const userList = document.getElementById('users');
+const playButton = document.getElementById('play');
+const nextButton = document.getElementById('next');
+
+playButton.disabled = true;
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -19,6 +23,10 @@ socket.on('roomUsers', ({ room, users }) => {
   outputUsers(users);
 });
 
+socket.on('readyToPlay', status => {
+  playButton.disabled = status;
+})
+
 // Message from server
 socket.on('message', message => {
   console.log(message);
@@ -26,6 +34,17 @@ socket.on('message', message => {
 
   // Scroll down
   chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
+socket.on('newQuestion', data => {
+  console.log(data)
+    document.querySelector("#category").innerHTML = `Category: ${data.category}`
+    document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
+    document.querySelector("#question").innerHTML = `Question: ${data.question}`
+    document.querySelector("#answer1").innerHTML = `${data.correct_answer}`
+    document.querySelector("#answer2").innerHTML = `${data.incorrect_answers[0]}`
+    document.querySelector("#answer3").innerHTML = `${data.incorrect_answers[1]}`
+    document.querySelector("#answer4").innerHTML = `${data.incorrect_answers[2]}`
 });
 
 // Message submit
@@ -79,3 +98,11 @@ function outputUsers(users) {
     userList.appendChild(li);
   });
  }
+
+function play(){
+ socket.emit('playQuiz'); 
+}
+
+function next(){
+  socket.emit('nextQuestion');
+}

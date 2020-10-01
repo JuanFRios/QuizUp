@@ -1,3 +1,4 @@
+const axios = require('axios');
 const path = require('path');
 const http = require('http');
 const express = require('express');
@@ -13,7 +14,7 @@ function userJoin(id, username, room) {
   const user = { id, username, room };
 
   users.push(user);
-  console.log('Nueva conexión: %s sockets conectados',users.length);
+  console.log('Nueva conexión: %s sockets conectados', users.length);
   return user;
 }
 
@@ -27,7 +28,7 @@ function userLeave(id) {
   const index = users.findIndex(user => user.id === id);
 
   if (index !== -1) {
-    console.log('Se ha cerrado una conexion: %s sockets conectados ',users.length-1)
+    console.log('Se ha cerrado una conexion: %s sockets conectados ', users.length - 1)
     return users.splice(index, 1)[0];
   }
 }
@@ -48,14 +49,23 @@ const botName = 'Asistente QuizUP';
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-    
+
     socket.join(user.room);
-    
+
     // Welcome current user
     socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
-    if(users.length==1){
-      
+    if (users.length == 1) {
+
     }
+
+    if (getRoomUsers(user.room).length >= 2) {
+      io.in(user.room)
+        .emit(
+          'readyToPlay',
+          false
+        )
+    };
+
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
@@ -71,12 +81,26 @@ io.on('connection', socket => {
     });
   });
 
+  socket.on('playQuiz', () => {
+    const user = getCurrentUser(socket.id);
+    axios.get('https://opentdb.com/api.php?amount=7&category=22&difficulty=easy&type=multiple')
+      .then(response => {
+      questions = response.data.results
+      io.in(user.room).emit ('newQuestion', questions.pop())
+      })
+    
+  })
+
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
-
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
+
+  socket.on('nextQuestion', () => {
+    const user = getCurrentUser(socket.id);
+    io.in(user.room).emit('newQuestion', questions.pop())
+  })
 
   // Runs when client disconnects
   socket.on('disconnect', () => {
@@ -88,6 +112,8 @@ io.on('connection', socket => {
         formatMessage(botName, `${user.username} has left the chat`)
       );
 
+      io.in(user.room).emit('readyToPlay', true);
+
       // Send users and room info
       io.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -96,5 +122,4 @@ io.on('connection', socket => {
     }
   });
 });
-
 
