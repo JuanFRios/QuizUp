@@ -95,14 +95,13 @@ input{
 	padding: 5px;
 }
 
-.chat-sidebar h2 {
+.chat-sidebar h5 {
 	font-size: 20px;
-	background: rgba(0, 0, 0, 0.1);
 	padding: 1px;
 	margin-bottom: 1px;
 }
 
-.chat-sidebar h3 {
+.chat-sidebar h4 {
 	margin-bottom: 1px;
 }
 
@@ -231,12 +230,24 @@ input{
 	  ". game game game ."
 	  "user4 game game game user2";
   }
-  .user1 { grid-area: user1; background-color: #667aff;  }
+  
+  .user1 { 
+	  background-color: #667aff;
+	  display: grid;
+	  grid-template-columns: 1fr 1fr 1fr;
+	  grid-template-rows: 1fr 1fr 1fr;
+	  gap: 0px 0px;
+	  grid-template-areas:
+		"name name name"
+		". avatar ."
+		"points points points";
+	grid-area: user1;
+	}
+
   .user4 { grid-area: user4; background-color: #667aff;}
   .game { 
 	grid-area: game;
 	background-color: #5cb85c; 
-
 }
   .user3 { grid-area: user3; background-color: #667aff;}
   .user2 { grid-area: user2; background-color: #667aff;}
@@ -247,3 +258,7 @@ input{
 	background-color: DarkSalmon;
 	color: white;
   }
+
+  .name{ grid-area: name;}
+  .avatar{ grid-area: avatar;}
+  .points{ grid-area: points;}

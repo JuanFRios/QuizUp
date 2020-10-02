@@ -2,6 +2,7 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('category-name');
 const userList = document.getElementById('users');
+const userName = document.getElementById('userName');
 const playButton = document.getElementById('play');
 const nextButton = document.getElementById('next');
 const answer1 = document.getElementById('answer1');
@@ -15,6 +16,21 @@ answer4.style.display = 'none';
 answer1.style.display = 'none';
 playButton.disabled = true;
 
+function group(info){
+  grid = [];
+  for(i = 1; i <= 4; i++){
+    //usersGrid.push(document.getElementsByClassName('user'.concat(i))[0].children[0].children[0]);
+    grid.push(document.getElementsByClassName('user'.concat(i))[0].children[info].children[0]);
+  }
+  return grid;
+}
+
+usersGr = group(0);
+pointsgr = group(1);
+
+
+//htmlusuarios[2][0].children[0].children[0].textContent = "MAMOR3"
+//puntos = document.getElementsByClassName('user1')[0].children[1].children[0].textContent = 45
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -101,14 +117,25 @@ function outputRoomName(room) {
   roomName.innerText = room;
 }
 
+// // Add users to DOM
+// function outputUsers(users) {
+//   userList.innerHTML = '';
+//   users.forEach(user=>{
+//     const li = document.createElement('li');
+//     li.innerText = user.username;
+//     userList.appendChild(li);
+//   });
+//  }
+
 // Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = '';
-  users.forEach(user=>{
+  for(i = 0; i < users.length; i++){
     const li = document.createElement('li');
-    li.innerText = user.username;
+    li.innerText = users[i].username;
+    usersGr[i].textContent = users[i].username;
     userList.appendChild(li);
-  });
+  }
  }
 
 function play(){
@@ -118,3 +145,4 @@ function play(){
 function next(){
   socket.emit('nextQuestion');
 }
+
