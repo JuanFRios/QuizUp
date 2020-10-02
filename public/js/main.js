@@ -4,8 +4,17 @@ const roomName = document.getElementById('category-name');
 const userList = document.getElementById('users');
 const playButton = document.getElementById('play');
 const nextButton = document.getElementById('next');
+const answer1 = document.getElementById('answer1');
+const answer2 = document.getElementById('answer2');
+const answer3 = document.getElementById('answer3');
+const answer4 = document.getElementById('answer4');
 
+answer2.style.display = 'none';
+answer3.style.display = 'none';
+answer4.style.display = 'none';
+answer1.style.display = 'none';
 playButton.disabled = true;
+
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -37,14 +46,17 @@ socket.on('message', message => {
 });
 
 socket.on('newQuestion', data => {
-  console.log(data)
-    document.querySelector("#category").innerHTML = `Category: ${data.category}`
     document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
     document.querySelector("#question").innerHTML = `Question: ${data.question}`
-    document.querySelector("#answer1").innerHTML = `${data.correct_answer}`
-    document.querySelector("#answer2").innerHTML = `${data.incorrect_answers[0]}`
-    document.querySelector("#answer3").innerHTML = `${data.incorrect_answers[1]}`
-    document.querySelector("#answer4").innerHTML = `${data.incorrect_answers[2]}`
+    answer1.innerHTML = `${data.correct_answer}`
+    answer2.innerHTML = `${data.incorrect_answers[0]}`
+    answer3.innerHTML = `${data.incorrect_answers[1]}`
+    answer4.innerHTML = `${data.incorrect_answers[2]}`
+    answer1.style.display = 'inline';
+    answer2.style.display = 'inline';
+    answer3.style.display = 'inline';
+    answer4.style.display = 'inline';
+    
 });
 
 // Message submit
