@@ -5,20 +5,30 @@ const userList = document.getElementById('users');
 const userName = document.getElementById('userName');
 const playButton = document.getElementById('play');
 const nextButton = document.getElementById('next');
+const preguntas = document.getElementById('preguntas');
+const finJuego = document.getElementById('finJuego');
+const ganador1 = document.getElementById('ganador');
 const answer1 = document.getElementById('answer1');
 const answer2 = document.getElementById('answer2');
 const answer3 = document.getElementById('answer3');
 const answer4 = document.getElementById('answer4');
+const answers = [answer1, answer2, answer3, answer4];
 
+finJuego.style.display = 'none';
 answer2.style.display = 'none';
 answer3.style.display = 'none';
 answer4.style.display = 'none';
 answer1.style.display = 'none';
 playButton.disabled = true;
 
-function group(info){
+answers[0].addEventListener("click", buena);
+answers[1].addEventListener("click", mala);
+answers[2].addEventListener("click", mala);
+answers[3].addEventListener("click", mala);
+
+function group(info) {
   grid = [];
-  for(i = 1; i <= 4; i++){
+  for (i = 1; i <= 4; i++) {
     //usersGrid.push(document.getElementsByClassName('user'.concat(i))[0].children[0].children[0]);
     grid.push(document.getElementsByClassName('user'.concat(i))[0].children[info].children[0]);
   }
@@ -50,6 +60,10 @@ socket.on('roomUsers', ({ room, users }) => {
 
 socket.on('readyToPlay', status => {
   playButton.disabled = status;
+  answers[0].style.display = 'inline';
+  answers[1].style.display = 'inline';
+  answers[2].style.display = 'inline';
+  answers[3].style.display = 'inline';
 })
 
 // Message from server
@@ -61,19 +75,52 @@ socket.on('message', message => {
   chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
+//Actualizar ganador cada pregunta
+socket.on('ganador', users => {
+  let max=0;
+  let ganador='';
+  users.forEach(element => {
+    if(element.puntaje>max){
+      max= element.puntaje;
+      ganador=element.username;
+    }
+  });
+  console.log('gano'+ ganador)
+  ganador1.innerHTML=`El ganador es: ${ganador}`
+});
+
+//Nueva pregunta con las opciones desordenadas
 socket.on('newQuestion', data => {
+  if (data != undefined) {
+    answers.sort(function () { return 0.5 - Math.random() })
+    answers[0].removeEventListener("click", mala);
+    answers[0].addEventListener("click", buena);
+    answers[1].removeEventListener("click", buena);
+    answers[1].addEventListener("click", mala);
+    answers[2].removeEventListener("click", buena);
+    answers[2].addEventListener("click", mala);
+    answers[3].removeEventListener("click", buena);
+    answers[3].addEventListener("click", mala);
     document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
     document.querySelector("#question").innerHTML = `Question: ${data.question}`
-    answer1.innerHTML = `${data.correct_answer}`
-    answer2.innerHTML = `${data.incorrect_answers[0]}`
-    answer3.innerHTML = `${data.incorrect_answers[1]}`
-    answer4.innerHTML = `${data.incorrect_answers[2]}`
-    answer1.style.display = 'inline';
-    answer2.style.display = 'inline';
-    answer3.style.display = 'inline';
-    answer4.style.display = 'inline';
-    
+    answers[0].innerHTML = `${data.correct_answer}`
+    answers[1].innerHTML = `${data.incorrect_answers[0]}`
+    answers[2].innerHTML = `${data.incorrect_answers[1]}`
+    answers[3].innerHTML = `${data.incorrect_answers[2]}`
+    answer1.disabled = false;
+    answer2.disabled = false;
+    answer3.disabled = false;
+    answer4.disabled = false;
+  } else {
+    finJuego.style.display = 'inline';
+    preguntas.style.display = 'none';
+  }
+
+
 });
+
+
+
 
 // Message submit
 chatForm.addEventListener('submit', e => {
@@ -81,10 +128,10 @@ chatForm.addEventListener('submit', e => {
 
   // Get message text
   let msg = e.target.elements.msg.value;
-  
+
   msg = msg.trim();
-  
-  if (!msg){
+
+  if (!msg) {
     return false;
   }
 
@@ -117,32 +164,46 @@ function outputRoomName(room) {
   roomName.innerText = room;
 }
 
-// // Add users to DOM
-// function outputUsers(users) {
-//   userList.innerHTML = '';
-//   users.forEach(user=>{
-//     const li = document.createElement('li');
-//     li.innerText = user.username;
-//     userList.appendChild(li);
-//   });
-//  }
 
 // Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = '';
-  for(i = 0; i < users.length; i++){
+  for (i = 0; i < users.length; i++) {
     const li = document.createElement('li');
     li.innerText = users[i].username;
     usersGr[i].textContent = users[i].username;
+    pointsgr[i].textContent = users[i].puntaje;
     userList.appendChild(li);
   }
- }
-
-function play(){
- socket.emit('playQuiz'); 
 }
 
-function next(){
+
+function play() {
+  setInterval(next, 5000);
+  socket.emit('playQuiz');
+}
+
+
+//Next question
+function next() {
   socket.emit('nextQuestion');
+}
+
+//Answer wrong
+function mala() {
+  answer1.disabled = true;
+  answer2.disabled = true;
+  answer3.disabled = true;
+  answer4.disabled = true;
+  socket.emit('respuestaMala');
+}
+
+//Answer Right
+function buena() {
+  answer1.disabled = true;
+  answer2.disabled = true;
+  answer3.disabled = true;
+  answer4.disabled = true;
+  socket.emit('respuestaBuena');
 }
 

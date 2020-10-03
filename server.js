@@ -15,8 +15,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 const botName = 'Asistente QuizUP';
 
 // Join user to chat
-function userJoin(id, username, room) {
-  const user = { id, username, room };
+function userJoin(id, username, room, puntaje, flag) {
+  const user = { id, username, room, puntaje, flag };
   users.push(user);
   console.log('Nueva conexión: %s sockets conectados', users.length);
   return user;
@@ -43,13 +43,13 @@ function getRoomUsers(room) {
 
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
-    const user = userJoin(socket.id, username, room);
+    const user = userJoin(socket.id, username, room, 0, 0);
     socket.join(user.room);
 
     // Welcome current user
     socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
     if (getRoomUsers(user.room).length >= 2) {
-      io.in(user.room).emit('readyToPlay',false);
+      io.in(user.room).emit('readyToPlay', false);
     };
 
     // Broadcast when a user connects
@@ -65,17 +65,59 @@ io.on('connection', socket => {
       room: user.room,
       users: getRoomUsers(user.room)
     });
+
+
   });
 
-//Inicia el juego genera 7 preguntas y las va eliminando
+  //Inicia el juego genera 7 preguntas y las va eliminando
   socket.on('playQuiz', () => {
     const user = getCurrentUser(socket.id);
-    axios.get('https://opentdb.com/api.php?amount=7&category=22&difficulty=easy&type=multiple')
-      .then(response => {
-      questions = response.data.results
-      io.in(user.room).emit ('newQuestion', questions.pop());
-      io.in(user.room).emit('readyToPlay',true)
-      });
+    const room = user.room;
+    console.log('Se ha iniciado una partida en la categoria '+room);
+    if (room == "Geography") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=22&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    } else if (room == "Sports") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=21&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    } else if (room == "History") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=23&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    } else if (room == "Politics") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=24&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    } else if (room == "Art") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=25&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    } else if (room == "Animals") {
+      axios.get('https://opentdb.com/api.php?amount=7&category=27&difficulty=easy&type=multiple')
+        .then(response => {
+          questions = response.data.results
+          io.in(user.room).emit('newQuestion', questions.pop());
+          io.in(user.room).emit('readyToPlay', true)
+        });
+    }
+
   })
 
   // Listen for chatMessage
@@ -84,9 +126,44 @@ io.on('connection', socket => {
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
+
   socket.on('nextQuestion', () => {
     const user = getCurrentUser(socket.id);
-    io.in(user.room).emit('newQuestion', questions.pop())
+    try {
+      io.in(user.room).emit('newQuestion', questions.pop());
+    } catch (error) {
+
+    }
+    try {
+      const users = getRoomUsers(user.room)
+      io.in(user.room).emit('ganador', users);
+    } catch (error) {
+
+    }
+
+
+  })
+
+  //Actualiza el puntaje cuando una respuesta es correcta
+  socket.on('respuestaBuena', () => {
+    const user = getCurrentUser(socket.id);
+    user.puntaje += 2;
+    user.flag = 1;
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
+  })
+
+  //Actualiza el puntaje cuando una respuesta es incorrecta
+  socket.on('respuestaMala', () => {
+    const user = getCurrentUser(socket.id);
+    user.puntaje -= 1;
+    user.flag = 1;
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   })
 
   // Runs when client disconnects
@@ -108,6 +185,6 @@ io.on('connection', socket => {
       });
     }
   });
-  
+
 });
 
