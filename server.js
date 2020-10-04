@@ -101,6 +101,7 @@ io.on('connection', socket => {
     questions[room] = response.data.results
     io.in(user.room).emit('newQuestion', questions[room].pop());
     io.in(user.room).emit('readyToPlay', true)
+    console.log(questions[room]);
   });
 
     // if (room == "Geography") {

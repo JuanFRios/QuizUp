@@ -21,6 +21,8 @@ answer3.style.display = 'none';
 answer4.style.display = 'none';
 answer1.style.display = 'none';
 playButton.disabled = true;
+var tiempoTotal = 5;
+contQues = 7;
 
 answers[0].addEventListener("click", buena);
 answers[1].addEventListener("click", mala);
@@ -182,7 +184,8 @@ function outputUsers(users) {
 
 
 function play() {
-  // setInterval(next, 5000);
+  contQues = 7;
+  setInterval(next, 5000);
   socket.emit('playQuiz');
   
 }
@@ -195,7 +198,12 @@ function play() {
 
 //Next question
 function next() {
-  socket.emit('nextQuestion');
+  contQues = contQues -1;
+  if (contQues >= 0) {
+    socket.emit('nextQuestion');
+    updateClock();
+    tiempoTotal = 5;
+  }
 }
 
 //Answer wrong
@@ -214,5 +222,17 @@ function buena() {
   answer3.disabled = true;
   answer4.disabled = true;
   socket.emit('respuestaBuena');
+}
+
+function updateClock() {
+  document.getElementById('countdown').innerHTML = tiempoTotal;
+  console.log('tiempor total:' + tiempoTotal)
+  if (tiempoTotal == 0) {
+    return
+  } else {
+    setTimeout("updateClock()", 1000);
+    tiempoTotal -= 1;
+    
+  }
 }
 

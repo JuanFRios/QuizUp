@@ -56,7 +56,7 @@ input{
 
 }
 
-/* Chat Page */
+/* Chat */
 
 .chat-container {
 	max-width: 1100px;
@@ -158,9 +158,20 @@ input{
 }
 
 /* Join Page */
+
+.grid-container-join {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	gap: 0px 0px;
+	grid-template-areas:
+	  ". join-container .";
+  }
+  
 .join-container {
+	grid-area: join-container;
 	max-width: 500px;
-	margin: 80px auto;
+	margin: 10px ;
 	color: #fff;
 }
 
@@ -219,6 +230,8 @@ input{
 	}
 }
 
+/*Game container*/
+
 .grid-container {
 	justify-content: center;
 	display: grid;
@@ -243,22 +256,69 @@ input{
 		"points points points";
 	grid-area: user1;
 	}
+	.user2 { 
+		grid-area: user2; background-color: #667aff;
+		display: grid;
+	  	grid-template-columns: 1fr 1fr 1fr;
+	  	grid-template-rows: 1fr 1fr 1fr;
+	  	gap: 0px 0px;
+	  	grid-template-areas:
+		"name name name"
+		". avatar ."
+		"points points points";
+		grid-area: user2;
+	}
+	.user3 { 
+		grid-area: user3; background-color: #667aff;
+		display: grid;
+	  	grid-template-columns: 1fr 1fr 1fr;
+	  	grid-template-rows: 1fr 1fr 1fr;
+	  	gap: 0px 0px;
+	  	grid-template-areas:
+		"name name name"
+		". avatar ."
+		"points points points";
+		grid-area: user3;
+	}
 
-  .user4 { grid-area: user4; background-color: #667aff;}
+  .user4 { 
+	  grid-area: user4; background-color: #667aff;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr;
+		gap: 0px 0px;
+		grid-template-areas:
+		"name name name"
+		". avatar ."
+		"points points points";
+		grid-area: user4;
+	}
+
+	.name{ grid-area: name;}
+	.avatar{ grid-area: avatar;}
+	.points{ grid-area: points;}
+  
   .game { 
 	grid-area: game;
 	background-color: #5cb85c; 
 }
-  .user3 { grid-area: user3; background-color: #667aff;}
-  .user2 { grid-area: user2; background-color: #667aff;}
 
-  footer {
+
+  .footer-play {
 	text-align: center;
 	padding: 3px;
 	background-color: DarkSalmon;
 	color: white;
   }
 
-  .name{ grid-area: name;}
-  .avatar{ grid-area: avatar;}
-  .points{ grid-area: points;}
+  .footer-join {
+	text-align: center;
+	width: 100%;
+	padding: 3px;
+	background-color: DarkSalmon;
+	color: white;
+	position:fixed;
+	left:0px;
+	bottom:0px;
+  }
+

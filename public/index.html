@@ -14,37 +14,46 @@
 		<title>ChatCord App</title>
 	</head>
 	<body>
-		<div class="join-container">
-			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> ChatCord</h1>
-			</header>
-			<main class="join-main">
-				<form action="quiz.html">
-					<div class="form-control">
-						<label for="username">Username</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
-							maxlength="10"
-							required
-						/>
-					</div>
-					<div class="form-control">
-						<label for="room">Category</label>
-						<select name="room" id="room">
-							<option value="Geography">Geography</option>
-							<option value="Sports">Sports</option>
-							<option value="History">History</option>
-							<option value="Politics">Politics</option>
-							<option value="Art">Art</option>
-							<option value="Animals">Animals</option>
-						</select>
-					</div>
-					<button type="submit" class="btn">Join Quiz</button>
-				</form>
-			</main>
-		</div>
+		<div class="grid-container-join">
+			<div class="join-container">
+				<header class="join-header">
+					<h1><i class="fas fa-gamepad"></i> QuizUp</h1>
+				</header>
+				<main class="join-main">
+					<form action="quiz.html">
+						<div class="form-control">
+							<label for="username">Username</label>
+							<input
+								type="text"
+								name="username"
+								id="username"
+								placeholder="Enter username..."
+								maxlength="10"
+								required
+							/>
+						</div>
+						<div class="form-control">
+							<label for="room">Category</label>
+							<select name="room" id="room">
+								<option value="Geography">Geography</option>
+								<option value="Sports">Sports</option>
+								<option value="History">History</option>
+								<option value="Politics">Politics</option>
+								<option value="Art">Art</option>
+								<option value="Animals">Animals</option>
+							</select>
+						</div>
+						<button type="submit" class="btn">Join Quiz</button>
+					</form>
+				</main>
+			</div>
+			
+		  </div>
+		
+		<footer class="footer-join">
+			<p>Author: Hege Refsnes<br>
+			  <a href="mailto:hege@example.com">hege@example.com</a></p>
+		
+		  </footer>
 	</body>
 </html>
