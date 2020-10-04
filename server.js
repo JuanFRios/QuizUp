@@ -8,6 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const users = [];
+const questions = {}
 
 server.listen(process.env.PORT || 3000);
 console.log('Servidor en ejecucion...');
@@ -73,50 +74,78 @@ io.on('connection', socket => {
   socket.on('playQuiz', () => {
     const user = getCurrentUser(socket.id);
     const room = user.room;
+    number_category=0
     console.log('Se ha iniciado una partida en la categoria '+room);
-    if (room == "Geography") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=22&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    } else if (room == "Sports") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=21&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    } else if (room == "History") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=23&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    } else if (room == "Politics") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=24&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    } else if (room == "Art") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=25&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    } else if (room == "Animals") {
-      axios.get('https://opentdb.com/api.php?amount=7&category=27&difficulty=easy&type=multiple')
-        .then(response => {
-          questions = response.data.results
-          io.in(user.room).emit('newQuestion', questions.pop());
-          io.in(user.room).emit('readyToPlay', true)
-        });
-    }
+    switch (room){
+    case "Geography":
+      number_category=22;
+      break;
+    case "Sports":
+      number_category=21;
+      break;
+    case "History":
+      number_category=23;
+      break;
+    case "Politics":
+      number_category=24;
+      break;
+    case "Art":
+      number_category=25;
+      break;
+    case "Animals":
+      number_category=27;
+      break;
+  }
+  axios.get(`https://opentdb.com/api.php?amount=7&category=${number_category}&difficulty=easy&type=multiple`)
+  .then(response => {
+    questions[room] = response.data.results
+    io.in(user.room).emit('newQuestion', questions[room].pop());
+    io.in(user.room).emit('readyToPlay', true)
+  });
+
+    // if (room == "Geography") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=22&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // } else if (room == "Sports") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=21&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // } else if (room == "History") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=23&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // } else if (room == "Politics") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=24&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // } else if (room == "Art") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=25&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // } else if (room == "Animals") {
+    //   axios.get('https://opentdb.com/api.php?amount=7&category=27&difficulty=easy&type=multiple')
+    //     .then(response => {
+    //       questions[room] = response.data.results
+    //       io.in(user.room).emit('newQuestion', questions[room].pop());
+    //       io.in(user.room).emit('readyToPlay', true)
+    //     });
+    // }
 
   })
 
@@ -129,19 +158,14 @@ io.on('connection', socket => {
 
   socket.on('nextQuestion', () => {
     const user = getCurrentUser(socket.id);
-    try {
-      io.in(user.room).emit('newQuestion', questions.pop());
-    } catch (error) {
-
+    if(questions[user.room].length>0){
+      io.in(user.room).emit('newQuestion', questions[user.room].pop());
     }
-    try {
+    else {
+      console.log('No more questionsitas');
       const users = getRoomUsers(user.room)
       io.in(user.room).emit('ganador', users);
-    } catch (error) {
-
     }
-
-
   })
 
   //Actualiza el puntaje cuando una respuesta es correcta
@@ -169,14 +193,22 @@ io.on('connection', socket => {
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const user = userLeave(socket.id);
+    console.log(user)
 
     if (user) {
+      numUser = getRoomUsers(user.room)
       io.to(user.room).emit(
         'message',
         formatMessage(botName, `${user.username} has left the chat`)
       );
-
-      io.in(user.room).emit('readyToPlay', true);
+       
+      if (numUser.length == 1){
+        console.log(numUser.length)
+        questions[user.room]=0;
+        io.in(user.room).emit('ganador', numUser);
+      }
+      
+      // io.in(user.room).emit('readyToPlay', true);
 
       // Send users and room info
       io.to(user.room).emit('roomUsers', {

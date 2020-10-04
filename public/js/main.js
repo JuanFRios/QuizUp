@@ -13,6 +13,7 @@ const answer2 = document.getElementById('answer2');
 const answer3 = document.getElementById('answer3');
 const answer4 = document.getElementById('answer4');
 const answers = [answer1, answer2, answer3, answer4];
+const timer = document.getElementById('timer');
 
 finJuego.style.display = 'none';
 answer2.style.display = 'none';
@@ -60,10 +61,6 @@ socket.on('roomUsers', ({ room, users }) => {
 
 socket.on('readyToPlay', status => {
   playButton.disabled = status;
-  answers[0].style.display = 'inline';
-  answers[1].style.display = 'inline';
-  answers[2].style.display = 'inline';
-  answers[3].style.display = 'inline';
 })
 
 // Message from server
@@ -77,8 +74,12 @@ socket.on('message', message => {
 
 //Actualizar ganador cada pregunta
 socket.on('ganador', users => {
-  let max=0;
+  finJuego.style.display = 'inline';
+  preguntas.style.display = 'none';
+  let max=-7;
   let ganador='';
+  console.log(users)
+
   users.forEach(element => {
     if(element.puntaje>max){
       max= element.puntaje;
@@ -91,7 +92,6 @@ socket.on('ganador', users => {
 
 //Nueva pregunta con las opciones desordenadas
 socket.on('newQuestion', data => {
-  if (data != undefined) {
     answers.sort(function () { return 0.5 - Math.random() })
     answers[0].removeEventListener("click", mala);
     answers[0].addEventListener("click", buena);
@@ -107,18 +107,15 @@ socket.on('newQuestion', data => {
     answers[1].innerHTML = `${data.incorrect_answers[0]}`
     answers[2].innerHTML = `${data.incorrect_answers[1]}`
     answers[3].innerHTML = `${data.incorrect_answers[2]}`
+    answers[0].style.display = 'inline';
+    answers[1].style.display = 'inline';
+    answers[2].style.display = 'inline';
+    answers[3].style.display = 'inline';
     answer1.disabled = false;
     answer2.disabled = false;
     answer3.disabled = false;
     answer4.disabled = false;
-  } else {
-    finJuego.style.display = 'inline';
-    preguntas.style.display = 'none';
-  }
-
-
 });
-
 
 
 
@@ -168,6 +165,12 @@ function outputRoomName(room) {
 // Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = '';
+  i=0;
+  while(i<=3) {
+    usersGr[i].textContent = '';
+    pointsgr[i].textContent = '';
+    i++;
+  }
   for (i = 0; i < users.length; i++) {
     const li = document.createElement('li');
     li.innerText = users[i].username;
@@ -179,10 +182,16 @@ function outputUsers(users) {
 
 
 function play() {
-  setInterval(next, 5000);
+  // setInterval(next, 5000);
   socket.emit('playQuiz');
+  
 }
 
+// function time(){
+//   now = timer.textContent
+//   if (now == 0) {next()}
+//   timer.textContent = now -1
+// }
 
 //Next question
 function next() {
