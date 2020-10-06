@@ -232,12 +232,13 @@ input {
 	grid-area: user1;
 }
 
-.avatar-otter{
+.avatar-otter {
 	grid-area: avatar-otter;
-	background-image: url("/img/otter.gif");
+	visibility: hidden;
+	width: 70px;
+	height: 70px;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 110px 110px;
 }
 
 .user2 {
@@ -251,12 +252,13 @@ input {
 	grid-area: user2;
 }
 
-.avatar-raccoon{
+.avatar-raccoon {
 	grid-area: avatar-raccoon;
-	background-image: url("/img/raccoon.gif");
+	visibility: hidden;
+	width: 70px;
+	height: 70px;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 100px 80px;
 }
 
 .user3 {
@@ -270,12 +272,13 @@ input {
 	grid-area: user3;
 }
 
-.avatar-pig{
+.avatar-pig {
 	grid-area: avatar-pig;
-	background-image: url("/img/pig.gif");
+	visibility: hidden;
+	width: 70px;
+	height: 70px;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 100px 80px;
 }
 
 .user4 {
@@ -295,16 +298,16 @@ input {
 
 .avatar-sheep {
 	grid-area: avatar-sheep;
-	background-image: url("/img/sheep.gif");
+	visibility: hidden;
+	width: 70px;
+	height: 70px;
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 60px 60px;
-
 }
 
 .points {
 	grid-area: points;
-padding-top: 15px;
+	padding-top: 15px;
 }
 
 .game {
@@ -318,7 +321,7 @@ padding-top: 15px;
 	font-size: 20px;
 }
 
-.board{
+.board {
 	padding-top: 35px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -326,13 +329,13 @@ padding-top: 15px;
 	width: 450px;
 }
 
-#winner-img{
-	height:300px;
+#winner-img {
+	height: 300px;
 	width: 300px;
 }
 
-#equals-img{
-	height:300px;
+#equals-img {
+	height: 300px;
 	width: 300px;
 }
 

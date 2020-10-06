@@ -45,8 +45,10 @@ function group(info) {
 }
 usersGr = group(0);
 pointsgr = group(1);
-// avatarGr = group(2)
-// console.log('avatares' + avatarGr)
+avatarGr = group(2)
+console.log('nombres' + usersGr)
+console.log('puntaje' + pointsgr)
+console.log('avatares' + avatarGr)
 
 //htmlusuarios[2][0].children[0].children[0].textContent = "MAMOR3"
 
@@ -194,7 +196,9 @@ function outputUsers(users) {
     li.innerText = users[i].username;
     usersGr[i].textContent = users[i].username;
     pointsgr[i].textContent = users[i].puntaje;
+    avatarGr[i].style.visibility="visible";
     userList.appendChild(li);
+    console.log('entro a '+i);
   }
 }
 
@@ -221,7 +225,6 @@ function play() {
   a = setInterval(next, 5000);
   b = setInterval(reloj, 1000);
   socket.emit('playQuiz');
-  console.log('seg' + intervalSeg)
 }
 
 //Next question
