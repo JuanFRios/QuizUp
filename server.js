@@ -50,7 +50,7 @@ io.on('connection', socket => {
     socket.join(user.room);
 
     // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
+    socket.emit('message', formatMessage(botName, 'Welcome to QuizUp!'));
     if (getRoomUsers(user.room).length >= 2) {
       io.in(user.room).emit('readyToPlay', false);
     };
