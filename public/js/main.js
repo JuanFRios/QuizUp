@@ -12,9 +12,11 @@ const answer1 = document.getElementById('answer1');
 const answer2 = document.getElementById('answer2');
 const answer3 = document.getElementById('answer3');
 const answer4 = document.getElementById('answer4');
+const winnerImg = document.getElementById('winner-img');
+const equalsImg = document.getElementById('equals-img');
 const answers = [answer1, answer2, answer3, answer4];
-const timer = document.getElementById('timer');
 
+document.getElementById('countdown').style.display = 'inline';
 finJuego.style.display = 'none';
 answer2.style.display = 'none';
 answer3.style.display = 'none';
@@ -23,27 +25,30 @@ answer1.style.display = 'none';
 playButton.disabled = true;
 var tiempoTotal = 5;
 contQues = 7;
+var a;
+var b;
+regresiveCount = 0;
+
 
 answers[0].addEventListener("click", buena);
 answers[1].addEventListener("click", mala);
 answers[2].addEventListener("click", mala);
 answers[3].addEventListener("click", mala);
 
+
 function group(info) {
   grid = [];
   for (i = 1; i <= 4; i++) {
-    //usersGrid.push(document.getElementsByClassName('user'.concat(i))[0].children[0].children[0]);
     grid.push(document.getElementsByClassName('user'.concat(i))[0].children[info].children[0]);
   }
   return grid;
 }
-
 usersGr = group(0);
 pointsgr = group(1);
-
+// avatarGr = group(2)
+// console.log('avatares' + avatarGr)
 
 //htmlusuarios[2][0].children[0].children[0].textContent = "MAMOR3"
-//puntos = document.getElementsByClassName('user1')[0].children[1].children[0].textContent = 45
 
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
@@ -78,48 +83,60 @@ socket.on('message', message => {
 socket.on('ganador', users => {
   finJuego.style.display = 'inline';
   preguntas.style.display = 'none';
-  let max=-7;
-  let ganador='';
-  console.log(users)
-
+  document.getElementById('countdown').style.display = 'none';
+  clearInterval(a);
+  clearInterval(b)
+  let max = -300000;
+  let ganador = '';
   users.forEach(element => {
-    if(element.puntaje>max){
-      max= element.puntaje;
-      ganador=element.username;
+    if (element.puntaje > max) {
+      max = element.puntaje;
     }
   });
-  console.log('gano'+ ganador)
-  ganador1.innerHTML=`El ganador es: ${ganador}`
+  ganador = users.filter(user => user.puntaje == max)
+  if (ganador.length > 1) {
+    ganador1.innerHTML = `Empate`
+    equalsImg.style.display = 'inline';
+  } else {
+    ganador1.innerHTML = `El ganador es: ${ganador[0].username}`
+    console.log('gano ' + ganador)
+    winnerImg.style.display = 'inline';
+  }
+  
 });
 
 //Nueva pregunta con las opciones desordenadas
 socket.on('newQuestion', data => {
-    answers.sort(function () { return 0.5 - Math.random() })
-    answers[0].removeEventListener("click", mala);
-    answers[0].addEventListener("click", buena);
-    answers[1].removeEventListener("click", buena);
-    answers[1].addEventListener("click", mala);
-    answers[2].removeEventListener("click", buena);
-    answers[2].addEventListener("click", mala);
-    answers[3].removeEventListener("click", buena);
-    answers[3].addEventListener("click", mala);
-    document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
-    document.querySelector("#question").innerHTML = `Question: ${data.question}`
-    answers[0].innerHTML = `${data.correct_answer}`
-    answers[1].innerHTML = `${data.incorrect_answers[0]}`
-    answers[2].innerHTML = `${data.incorrect_answers[1]}`
-    answers[3].innerHTML = `${data.incorrect_answers[2]}`
-    answers[0].style.display = 'inline';
-    answers[1].style.display = 'inline';
-    answers[2].style.display = 'inline';
-    answers[3].style.display = 'inline';
-    answer1.disabled = false;
-    answer2.disabled = false;
-    answer3.disabled = false;
-    answer4.disabled = false;
+  preguntas.style.display = 'inline';
+  document.getElementById('countdown').style.display = 'inline';
+  answers.sort(function () { return 0.5 - Math.random() })
+  answers[0].removeEventListener("click", mala);
+  answers[0].addEventListener("click", buena);
+  answers[1].removeEventListener("click", buena);
+  answers[1].addEventListener("click", mala);
+  answers[2].removeEventListener("click", buena);
+  answers[2].addEventListener("click", mala);
+  answers[3].removeEventListener("click", buena);
+  answers[3].addEventListener("click", mala);
+  document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
+  document.querySelector("#question").innerHTML = `Question: ${data.question}`
+  answers[0].innerHTML = `${data.correct_answer}`
+  answers[1].innerHTML = `${data.incorrect_answers[0]}`
+  answers[2].innerHTML = `${data.incorrect_answers[1]}`
+  answers[3].innerHTML = `${data.incorrect_answers[2]}`
+  answers[0].style.display = 'inline';
+  answers[1].style.display = 'inline';
+  answers[2].style.display = 'inline';
+  answers[3].style.display = 'inline';
+  answer1.disabled = false;
+  answer2.disabled = false;
+  answer3.disabled = false;
+  answer4.disabled = false;
+  finJuego.style.display = 'none';
+  winnerImg.style.display = 'none';
+  equalsImg.style.display = 'none';
+  tiempoTotal = 5;
 });
-
-
 
 // Message submit
 chatForm.addEventListener('submit', e => {
@@ -163,12 +180,11 @@ function outputRoomName(room) {
   roomName.innerText = room;
 }
 
-
 // Add users to DOM
 function outputUsers(users) {
   userList.innerHTML = '';
-  i=0;
-  while(i<=3) {
+  i = 0;
+  while (i <= 3) {
     usersGr[i].textContent = '';
     pointsgr[i].textContent = '';
     i++;
@@ -182,37 +198,13 @@ function outputUsers(users) {
   }
 }
 
-
-function play() {
-  contQues = 7;
-  setInterval(next, 5000);
-  socket.emit('playQuiz');
-  
-}
-
-// function time(){
-//   now = timer.textContent
-//   if (now == 0) {next()}
-//   timer.textContent = now -1
-// }
-
-//Next question
-function next() {
-  contQues = contQues -1;
-  if (contQues >= 0) {
-    socket.emit('nextQuestion');
-    updateClock();
-    tiempoTotal = 5;
-  }
-}
-
 //Answer wrong
 function mala() {
   answer1.disabled = true;
   answer2.disabled = true;
   answer3.disabled = true;
   answer4.disabled = true;
-  socket.emit('respuestaMala');
+  socket.emit('respuestaMala', regresiveCount)
 }
 
 //Answer Right
@@ -221,18 +213,36 @@ function buena() {
   answer2.disabled = true;
   answer3.disabled = true;
   answer4.disabled = true;
-  socket.emit('respuestaBuena');
+  socket.emit('respuestaBuena', regresiveCount);
 }
 
-function updateClock() {
-  document.getElementById('countdown').innerHTML = tiempoTotal;
-  console.log('tiempor total:' + tiempoTotal)
-  if (tiempoTotal == 0) {
-    return
+function play() {
+  contQues = 7
+  a = setInterval(next, 5000);
+  b = setInterval(reloj, 1000);
+  socket.emit('playQuiz');
+  console.log('seg' + intervalSeg)
+}
+
+//Next question
+function next() {
+  tiempoTotal = 5;
+  contQues = contQues - 1;
+  if (contQues >= 0) {
+    socket.emit('nextQuestion');
   } else {
-    setTimeout("updateClock()", 1000);
-    tiempoTotal -= 1;
-    
+    clearInterval(a);
+    clearInterval(b)
   }
+}
+
+socket.on('regresiva', tiempo => {
+  regresiveCount = tiempo;
+  document.getElementById('countdown').innerHTML = tiempo;
+})
+
+function reloj() {
+  tiempoTotal -= 1;
+  socket.emit('enviarTiempo', tiempoTotal);
 }
 

@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;400&display=swap');
 :root {
-	--dark-color-a: #667aff;
-	--dark-color-b: #7386ff;
-	--light-color: #e6e9ff;
+	--dark-color-a: #a73313c0;
+	--dark-color-b: #cf4620b6;
+	--message-color: #315470;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
+	--footer-color: #fa8c2cbd;
+	--ligth-color: #ffffffdc;
 }
 
 * {
@@ -28,33 +32,360 @@ a {
 	text-decoration: none;
 }
 
-.container{
+.container {
 	max-width: 1200px;
-	height: 100%;
-    padding-right: 5px;
-    padding-left: 5px;
+	height: 520px;
+	padding-right: 5px;
+	padding-left: 5px;
 	margin-right: 5px;
 	margin-left: 5px;
 	margin-top: 15px;
 	margin-bottom: 20px;
 	overflow: visible;
-
 }
 
-input{
+input {
 	width: 150px;
 	margin-bottom: 5px;
-
 }
-.btn {
+
+.join-btn {
 	cursor: pointer;
 	padding: 5px 15px;
-	background: var(--light-color);
-	color: var(--dark-color-a);
+	background: var(--ligth-color);
 	border: 0;
 	font-size: 17px;
+	border-radius: 10px;
+	font-family: 'Oswald', sans-serif;
+}
+
+/* Join Page */
+
+.grid-container-join {
+	font-family: 'Oswald', sans-serif;
+	margin-top: 60px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "image1 join-container image2";
+}
+
+.image1 {
+	margin-top: -50px;
+	padding-left: 30px;
+	padding-left: 10px;
+	grid-area: image1;
+	width: 400px;
+	height: 400px;
+}
+
+.image2 {
+	margin-top: 45px;
+	padding-left: 10px;
+	grid-area: image2;
+	width: 350px;
+	height: 350px;
+}
+
+.image2 {
+	grid-area: image2;
+}
+
+.join-container {
+	grid-area: join-container;
+	max-width: 500px;
+	margin: 10px;
+	color: #fff;
+}
+
+.join-header {
+	text-align: center;
+	font-size: 23px;
+	font-family: 'Henny Penny', cursive;
+	padding: 1px;
+	background: var(--dark-color-a);
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.join-main {
+	font-family: 'Oswald', sans-serif;
+	padding: 30px 40px;
+	background: var(--dark-color-b);
+}
+
+.join-main p {
+	font-family: 'Oswald', sans-serif;
+	margin-bottom: 20px;
+}
+
+.join-main .form-control {
+	font-family: 'Oswald', sans-serif;
+	margin-bottom: 20px;
+}
+
+.join-main label {
+	font-family: 'Oswald', sans-serif;
+	display: block;
+	margin-bottom: 5px;
+}
+
+.join-main input[type='text'] {
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main select {
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+	padding: 5px;
+	height: 40px;
+	width: 100%;
+}
+
+.join-main .btn {
+	font-family: 'Oswald', sans-serif;
+	margin-top: 20px;
+	width: 100%;
+	background-color: var(--ligth-color);
+}
+
+@media (max-width: 700px) {
+	.chat-main {
+		display: block;
+	}
+	.chat-sidebar {
+		display: none;
+	}
+}
+
+.footer-join {
+	width: 100%;
+	padding: 15px;
+	background: var(--dark-color-a);
+	color: white;
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+}
+
+.footer-copyright {
+	font-family: 'Oswald', sans-serif;
+	text-align: right;
+	font-weight: normal;
+	margin-left: 870px;
+}
+
+.footer-authors {
+	margin-left: 10px;
+	font-family: 'Oswald', sans-serif;
+	text-align: left;
+	font-weight: normal;
+}
+
+/* End Join */
+
+/* Navbar */
+
+.navbar {
+	background-color: var(--dark-color-a);
+	border-radius: 10px;
+}
+
+.title {
+	text-align: center;
+	font-size: 40px;
+	padding-top: 10px;
+	color: var(--ligth-color);
+	font-family: 'Henny Penny', cursive;
+}
+
+.btn-light {
+	font-size: large;
+	font-family: 'Oswald', sans-serif;
+}
+
+/* End Navbar */
+
+/*Game container*/
+
+.grid-container {
+	justify-content: center;
+	display: grid;
+	grid-template-columns: 150px 150px 150px 150px 150px;
+	grid-template-rows: 150px 200px 150px;
+	gap: 5px 5px;
+	grid-template-areas: "user1 game game game user3" ". game game game ." "user4 game game game user2";
+}
+
+.user1 {
+	background-color: #667aff;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "name name name" "avatar-otter avatar-otter avatar-otter" "points points points";
+	grid-area: user1;
+}
+
+.avatar-otter{
+	grid-area: avatar-otter;
+	background-image: url("/img/otter.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 110px 110px;
+}
+
+.user2 {
+	grid-area: user2;
+	background-color: #667aff;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "name name name" "avatar-raccoon avatar-raccoon avatar-raccoon" "points points points";
+	grid-area: user2;
+}
+
+.avatar-raccoon{
+	grid-area: avatar-raccoon;
+	background-image: url("/img/raccoon.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100px 80px;
+}
+
+.user3 {
+	grid-area: user3;
+	background-color: #667aff;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "name name name" "avatar-pig avatar-pig avatar-pig" "points points points";
+	grid-area: user3;
+}
+
+.avatar-pig{
+	grid-area: avatar-pig;
+	background-image: url("/img/pig.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100px 80px;
+}
+
+.user4 {
+	grid-area: user4;
+	background-color: #667aff;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 0px 0px;
+	grid-template-areas: "name name name" "avatar-sheep avatar-sheep avatar-sheep" "points points points";
+	grid-area: user4;
+}
+
+.name {
+	grid-area: name;
+}
+
+.avatar-sheep {
+	grid-area: avatar-sheep;
+	background-image: url("/img/sheep.gif");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 60px 60px;
 
 }
+
+.points {
+	grid-area: points;
+padding-top: 15px;
+}
+
+.game {
+	grid-area: game;
+	background-image: url("/img/board.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: auto;
+	color: var(--ligth-color);
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+}
+
+.board{
+	padding-top: 35px;
+	padding-left: 5px;
+	padding-right: 5px;
+	height: 490px;
+	width: 450px;
+}
+
+#winner-img{
+	height:300px;
+	width: 300px;
+}
+
+#equals-img{
+	height:300px;
+	width: 300px;
+}
+
+.footer-play {
+	text-align: center;
+	padding: 15px;
+	background: var(--dark-color-a);
+	border-radius: 5px;
+	color: var(--ligth-color);
+}
+
+.footer-copyrightP {
+	font-family: 'Oswald', sans-serif;
+	text-align: right;
+	font-weight: normal;
+	margin-left: 830px;
+}
+
+/*End Game container*/
+
+/*Sidebar*/
+
+.chat-sidebar {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 200;
+	background: var(--dark-color-b);
+	color: var(--ligth-color);
+	height: 510px;
+	text-align: left;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.chat-sidebar h5 {
+	font-size: 25px;
+	padding: 1px;
+	margin-bottom: 1px;
+}
+
+.chat-sidebar h6 {
+	margin-bottom: 1px;
+	font-size: 25px;
+	font-weight: 200;
+}
+
+.chat-sidebar ul li {
+	margin-left: 25px;
+	padding: 2px 1;
+	font-size: 22px;
+	list-style: disc;
+}
+
+/*End Sidebar*/
 
 /* Chat */
 
@@ -63,11 +394,10 @@ input{
 	background: #fff;
 	margin: 30px auto;
 	overflow: hidden;
-	
 }
 
 .chat-header {
-	background: var(--dark-color-a);
+	background: yellow;
 	color: #fff;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
@@ -82,47 +412,27 @@ input{
 	grid-template-columns: 1fr;
 	padding: 0px 0px 0px;
 }
-.div.col-2{
+
+.div.col-2 {
 	padding: 0px 0px;
-	height: 570px;
+	height: 510px;
 	max-width: 783.328px;
-}
-.chat-sidebar {
-	background: var(--dark-color-b);
-	color: black;
-	height: 570px;
-	text-align: left;
-	padding: 5px;
-}
-
-.chat-sidebar h5 {
-	font-size: 20px;
-	padding: 1px;
-	margin-bottom: 1px;
-}
-
-.chat-sidebar h4 {
-	margin-bottom: 1px;
-}
-
-.chat-sidebar ul li {
-	margin-left: 20px;
-	padding: 2px 1;
-	list-style: disc;
-	
 }
 
 .chat-messages {
+	font-family: 'Oswald', sans-serif;
+	font-weight: normal;
 	padding: 2px;
 	max-height: 500px;
-	overflow-y: scroll;
 	margin-bottom: 10px;
+	height: 450;
+	overflow-y: scroll;
 }
 
 .chat-messages .message {
 	padding: 10px;
 	margin-bottom: 0px;
-	background-color: var(--light-color);
+	background-color: var(--ligth-color);
 	border-radius: 5px;
 	overflow-wrap: break-word;
 	text-align: left;
@@ -132,7 +442,7 @@ input{
 .chat-messages .message .meta {
 	font-size: 15px;
 	font-weight: bold;
-	color: var(--dark-color-b);
+	color: var(--message-color);
 	opacity: 0.7;
 	margin-bottom: 7px;
 }
@@ -142,12 +452,13 @@ input{
 }
 
 .chat-form-container {
+	border-radius: 10px;
+	font-family: 'Oswald', sans-serif;
+	font-weight: 200;
 	padding: 10px 5px;
-	background-color: var(--dark-color-a);
-}
-
-.chat-form-container form {
-	display: flexbox;
+	height: 510px;
+	background-color: var(--dark-color-b);
+	display: grid;
 }
 
 .chat-form-container input[type='text'] {
@@ -157,168 +468,4 @@ input{
 	flex: 1;
 }
 
-/* Join Page */
-
-.grid-container-join {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 1fr;
-	gap: 0px 0px;
-	grid-template-areas:
-	  ". join-container .";
-  }
-  
-.join-container {
-	grid-area: join-container;
-	max-width: 500px;
-	margin: 10px ;
-	color: #fff;
-}
-
-.join-header {
-	text-align: center;
-	padding: 20px;
-	background: var(--dark-color-a);
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-}
-
-.join-main {
-	padding: 30px 40px;
-	background: var(--dark-color-b);
-}
-
-.join-main p {
-	margin-bottom: 20px;
-}
-
-.join-main .form-control {
-	margin-bottom: 20px;
-}
-
-.join-main label {
-	display: block;
-	margin-bottom: 5px;
-}
-
-.join-main input[type='text'] {
-	font-size: 16px;
-	padding: 5px;
-	height: 40px;
-	width: 100%;
-}
-
-.join-main select {
-	font-size: 16px;
-	padding: 5px;
-	height: 40px;
-	width: 100%;
-}
-
-.join-main .btn {
-	margin-top: 20px;
-	width: 100%;
-}
-
-@media (max-width: 700px) {
-	.chat-main {
-		display: block;
-	}
-
-	.chat-sidebar {
-		display: none;
-	}
-}
-
-/*Game container*/
-
-.grid-container {
-	justify-content: center;
-	display: grid;
-	grid-template-columns: 150px 150px 150px 150px 150px;
-	grid-template-rows: 150px 200px 150px;
-	gap: 5px 5px;
-	grid-template-areas:
-	  "user1 game game game user3"
-	  ". game game game ."
-	  "user4 game game game user2";
-  }
-  
-  .user1 { 
-	  background-color: #667aff;
-	  display: grid;
-	  grid-template-columns: 1fr 1fr 1fr;
-	  grid-template-rows: 1fr 1fr 1fr;
-	  gap: 0px 0px;
-	  grid-template-areas:
-		"name name name"
-		". avatar ."
-		"points points points";
-	grid-area: user1;
-	}
-	.user2 { 
-		grid-area: user2; background-color: #667aff;
-		display: grid;
-	  	grid-template-columns: 1fr 1fr 1fr;
-	  	grid-template-rows: 1fr 1fr 1fr;
-	  	gap: 0px 0px;
-	  	grid-template-areas:
-		"name name name"
-		". avatar ."
-		"points points points";
-		grid-area: user2;
-	}
-	.user3 { 
-		grid-area: user3; background-color: #667aff;
-		display: grid;
-	  	grid-template-columns: 1fr 1fr 1fr;
-	  	grid-template-rows: 1fr 1fr 1fr;
-	  	gap: 0px 0px;
-	  	grid-template-areas:
-		"name name name"
-		". avatar ."
-		"points points points";
-		grid-area: user3;
-	}
-
-  .user4 { 
-	  grid-area: user4; background-color: #667aff;
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 1fr 1fr 1fr;
-		gap: 0px 0px;
-		grid-template-areas:
-		"name name name"
-		". avatar ."
-		"points points points";
-		grid-area: user4;
-	}
-
-	.name{ grid-area: name;}
-	.avatar{ grid-area: avatar;}
-	.points{ grid-area: points;}
-  
-  .game { 
-	grid-area: game;
-	background-color: #5cb85c; 
-}
-
-
-  .footer-play {
-	text-align: center;
-	padding: 3px;
-	background-color: DarkSalmon;
-	color: white;
-  }
-
-  .footer-join {
-	text-align: center;
-	width: 100%;
-	padding: 3px;
-	background-color: DarkSalmon;
-	color: white;
-	position:fixed;
-	left:0px;
-	bottom:0px;
-  }
-
+/*End Chat */

@@ -9,46 +9,40 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
-  
+  <link rel="shortcut icon" href="/img/icon.ico" />
   <title>QuizUp</title>
-
 </head>
-
 
 <body>
   <center>
-    <div>
-      <!-- Image and text -->
-      <nav class="navbar navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-          <img src="/docs/4.1/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top"
-            alt="">
-          Bootstrap
-        </a>
-        <h1><i class="fas fa-smile"></i> QuizUp</h1>
-        <a href="index.html" class="btn">Leave Room</a>
-      </nav>
-    </div>
+    <nav class="navbar">
+      <a class="navbar-brand" href="#">
+
+      </a>
+      <h1 class="title"> QuizUp</h1>
+      <!-- <a href="index.html" class="leave-btn">Leave Room</a> -->
+      <a class="btn btn-light" href="index.html" role="button">Leave Room</a>
+    </nav>
+
     <div class="container">
       <div class="row">
-        <div class="col-2" style="height: 570px;">
+
+        <div class="col-2" style="height: 510px;">
           <main class="chat-main">
+
             <div class="chat-sidebar">
-              <h4><i class="fas fa-comments"></i> Category:</h4>
-              <h5 id="category-name"></h5>
-              <h4><i class="fas fa-users"></i> Online Users</h4>
+              <h5><i class="fas fa-magic"></i> Category:</h5>
+              <h6 id="category-name"></h6>
+              <br>
+              <h5><i class="fas fa-users"></i> Online Users</h5>
               <ul id="users"></ul>
             </div>
-
           </main>
         </div>
-        <div class="col-8" style="height: 570px;">
-          <!--<iframe src="Home.html" name="miFrame" style="height: 100%; width: 100%; border: none"> </iframe>-->
-          <h1>
-            Trivia Game
-          </h1>
 
-          <div class="grid-container">
+        <div class="col-8" style="height: 570px;">
+
+          <div class="grid-container" background="/img/board.jpg">
 
             <div class="user1">
               <div class="name">
@@ -57,7 +51,8 @@
               <div class="points">
                 <h4 id="userPoints"></h4>
               </div>
-              <div class="avatar"></div>
+              <div class="avatar-otter">
+              </div>
             </div>
 
             <div class="user2">
@@ -67,7 +62,8 @@
               <div class="points">
                 <h4 id="userPoints"></h4>
               </div>
-              <div class="avatar"></div>
+              <div class="avatar-raccoon">
+              </div>
             </div>
 
             <div class="user3">
@@ -77,7 +73,7 @@
               <div class="points">
                 <h4 id="userPoints"></h4>
               </div>
-              <div class="avatar"></div>
+              <div class="avatar-pig"></div>
             </div>
 
             <div class="user4">
@@ -87,99 +83,70 @@
               <div class="points">
                 <h4 id="userPoints"></h4>
               </div>
-              <div class="avatar"></div>
+              <div class="avatar-sheep"></div>
             </div>
 
             <div class="game">
-              <div id="preguntas">
+              <div class="board">
                 <div>
                   <button onclick="next()" id="next">NEXT</button>
-                  <button onclick="play()" id="play">PLAY!</button>
-                  <span id="countdown"></span>
-
+                  <button onclick="play()" id="play" class='btn btn-light '>
+                    <i class="fas fa-play"></i> PLAY!</button>
                 </div>
-                <p id="category"></p>
-                <p id="difficulty"></p>
-                <p id="question"></p>
-                
-                <button id="answer1"></button><br><br>
-                <button id="answer2"></button><br><br>
-                <button id="answer3"></button><br><br>
-                <button id="answer4"></button>
-              
-              </div>
-              <div>
-                <h4 id="timer">10</h4>
-              </div>
-              <div id="finJuego">
-                <h4 id="ganador">Has Ganado</h4>
-              </div>
-            </div>              
-            
-            
 
+                <span id="countdown"></span>
+                <div id="preguntas">
+                  <p id="category"></p>
+                  <p id="difficulty"></p>
+                  <p id="question"></p>
+                  <button id="answer1" class='btn btn-light' style="margin: 5px;"></button><br>
+                  <button id="answer2" class='btn btn-light ' style="margin: 5px;"></button><br>
+                  <button id="answer3" class='btn btn-light ' style="margin: 5px;"></button><br>
+                  <button id="answer4" class='btn btn-light ' style="margin: 5px;"></button>
+                </div>
+
+                <div id="finJuego">
+                  <br>
+                  <h4 id="ganador">Has Ganado</h4>
+                  <h4>¿Volver a Jugar?</h4>
+                </div>
+
+                <img id="winner-img" src="img\winner.png" style="display: none;">
+                <img id="equals-img" src="img\equals.png" style="display: none;">
+
+              </div>
+
+            </div>
           </div>
-
         </div>
 
-        <div class="col-2" style="height: 570px;">
+        <div class="col-2" style="height: 510px;">
           <div class="chat-form-container">
-            <div class="chat-messages"></div>
+            <div class="chat-messages">
+
+            </div>
             <form id="chat-form">
               <input id="msg" type="text" style="width: 150px;" placeholder="Enter Message" required
                 autocomplete="off" />
-              <br>
-              <div></div>
-              <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+              <button class="btn btn-light"><i class="fas fa-paper-plane"></i> Send</button>
             </form>
-
           </div>
         </div>
+
       </div>
     </div>
-
-
   </center>
+
   <footer class="footer-play">
-    <p>Author: Hege Refsnes<br>
-      <a href="mailto:hege@example.com">hege@example.com</a></p>
-
+    <span class="footer-authors">Authors: Juan Fernando Rios & Paola Andrea Posada</span>
+    <span class="footer-copyrightP">© 2020 Copyright</span>
   </footer>
-
-  <!--<div class="chat-container">
-      <header class="chat-header">
-        <h1><i class="fas fa-smile"></i> ChatCord</h1>
-        <a href="index.html" class="btn">Leave Room</a>
-      </header>
-      <main class="chat-main">
-        <div class="chat-sidebar">
-          <h3><i class="fas fa-comments"></i> Room Name:</h3>
-          <h2 id="category-name"></h2>
-          <h3><i class="fas fa-users"></i> Users</h3>
-          <ul id="users"></ul>
-        </div>
-        <div class="chat-messages"></div>
-      </main>
-      <div class="chat-form-container">
-        <form id="chat-form">
-          <input
-            id="msg"
-            type="text"
-            placeholder="Enter Message"
-            required
-            autocomplete="off"
-          />
-          <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
-      </div>
-    </div> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
     integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/main.js"></script>
-  
-</body>
 
+</body>
 
 </html>
