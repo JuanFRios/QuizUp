@@ -77,7 +77,6 @@
               <div class="avatar-pig">
                 <img class="avatar-pig" src="/img/pig.gif">
               </div>
-
             </div>
 
             <div class="user4">
@@ -90,22 +89,26 @@
               <div class="avatar-sheep">
                 <img class="avatar-sheep" src="/img/sheep.gif">
               </div>
-
             </div>
 
             <div class="game">
               <div class="board">
                 <div>
-                  <button onclick="next()" id="next">NEXT</button>
+                  <img id= 'imgTimer' src="/img/timer.png">
+                  <h1 id="countdown"></h1>
+                  <!-- <button onclick="next()" id="next">NEXT</button> -->
                   <button onclick="play()" id="play" class='btn btn-light '>
                     <i class="fas fa-play"></i> PLAY!</button>
                 </div>
-
-                <span id="countdown"></span>
+                
                 <div id="preguntas">
                   <p id="category"></p>
                   <p id="difficulty"></p>
                   <p id="question"></p>
+                  <div class="answer">
+                    <img id="good" src="/img/good.gif">
+                    <img id="bad" src="/img/bad.gif">
+                  </div>
                   <button id="answer1" class='btn btn-light' style="margin: 5px;"></button><br>
                   <button id="answer2" class='btn btn-light ' style="margin: 5px;"></button><br>
                   <button id="answer3" class='btn btn-light ' style="margin: 5px;"></button><br>

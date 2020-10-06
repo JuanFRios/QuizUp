@@ -5,11 +5,12 @@
 :root {
 	--dark-color-a: #a73313c0;
 	--dark-color-b: #cf4620b6;
-	--message-color: #315470;
+	--message-color: #0d0d0e;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
 	--footer-color: #fa8c2cbd;
 	--ligth-color: #ffffffdc;
+	--margin-color: #29876B;
 }
 
 * {
@@ -223,7 +224,9 @@ input {
 }
 
 .user1 {
-	background-color: #667aff;
+	background-color:var(--ligth-color);
+	border-style: solid;
+	border-color: var(--margin-color);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
@@ -234,6 +237,7 @@ input {
 
 .avatar-otter {
 	grid-area: avatar-otter;
+	margin-left: 20px;
 	visibility: hidden;
 	width: 70px;
 	height: 70px;
@@ -243,7 +247,8 @@ input {
 
 .user2 {
 	grid-area: user2;
-	background-color: #667aff;
+	border-style: solid;
+	border-color: var(--margin-color);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
@@ -254,6 +259,7 @@ input {
 
 .avatar-raccoon {
 	grid-area: avatar-raccoon;
+	margin-left: 20px;
 	visibility: hidden;
 	width: 70px;
 	height: 70px;
@@ -263,7 +269,8 @@ input {
 
 .user3 {
 	grid-area: user3;
-	background-color: #667aff;
+	border-style: solid;
+	border-color: var(--margin-color);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
@@ -274,6 +281,7 @@ input {
 
 .avatar-pig {
 	grid-area: avatar-pig;
+	margin-left: 20px;
 	visibility: hidden;
 	width: 70px;
 	height: 70px;
@@ -283,7 +291,8 @@ input {
 
 .user4 {
 	grid-area: user4;
-	background-color: #667aff;
+	border-style: solid;
+	border-color: var(--margin-color);
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr 1fr 1fr;
@@ -292,11 +301,8 @@ input {
 	grid-area: user4;
 }
 
-.name {
-	grid-area: name;
-}
-
 .avatar-sheep {
+	margin-left: 20px;
 	grid-area: avatar-sheep;
 	visibility: hidden;
 	width: 70px;
@@ -305,9 +311,45 @@ input {
 	background-position: center;
 }
 
+.answer {
+	grid-area: answer;
+	width: 70px;
+	height: 70px;
+	display: 'none';
+	padding: 0px;
+	margin: 0px;
+}
+
+#bad{
+	padding: 2px;
+	visibility: hidden;
+	display: none;
+	width: 70px;
+	height: 70px;
+	
+}
+
+#good{
+	padding: 5px;
+	visibility: hidden;
+	display: none;
+	width: 70px;
+	height: 70px;
+}
+
+.name {
+	padding-top: 2px;
+	grid-area: name;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+}
+
+
 .points {
 	grid-area: points;
-	padding-top: 15px;
+	padding-top: 8px;
+	padding-bottom: 2px;
 }
 
 .game {
@@ -318,7 +360,7 @@ input {
 	background-size: auto;
 	color: var(--ligth-color);
 	font-family: 'Oswald', sans-serif;
-	font-size: 20px;
+	font-size: 16px;
 }
 
 .board {
@@ -331,12 +373,46 @@ input {
 
 #winner-img {
 	height: 300px;
-	width: 300px;
+	width: 350px;
 }
 
 #equals-img {
 	height: 300px;
 	width: 300px;
+}
+
+#question{
+	font-family: 'Oswald', sans-serif;
+	font-size: 20px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+}
+
+#answer1 #answer2 #answer3 #answer4{
+	font-family: 'Oswald', sans-serif;
+	font-size: 16px;
+}
+
+#countdown{
+	margin-left: -80px;
+	margin-top: 8px;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	color: black;
+	font-size: 30px;
+}
+
+#imgTimer{
+	position:relative;
+	width: 50px;
+	height: 50px;
+}
+
+#play{
+	margin-left:50px ;
+	position:relative;
 }
 
 .footer-play {
@@ -358,6 +434,15 @@ input {
 
 /*Sidebar*/
 
+.chat-main {
+	display: grid;
+	grid-template-columns: 1fr;
+	padding: 0px 0px 0px;
+	border-width: 3px;
+	border-color: var(--margin-color);
+	border-style: solid;
+	border-radius: 12px;
+}
 .chat-sidebar {
 	font-family: 'Oswald', sans-serif;
 	font-weight: 200;
@@ -367,6 +452,7 @@ input {
 	text-align: left;
 	padding: 5px;
 	border-radius: 10px;
+	
 }
 
 .chat-sidebar h5 {
@@ -408,12 +494,6 @@ input {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-}
-
-.chat-main {
-	display: grid;
-	grid-template-columns: 1fr;
-	padding: 0px 0px 0px;
 }
 
 .div.col-2 {
@@ -462,6 +542,10 @@ input {
 	height: 510px;
 	background-color: var(--dark-color-b);
 	display: grid;
+	border-width: 3px;
+	border-color: var(--margin-color);
+	border-style: solid;
+	border-radius: 12px;
 }
 
 .chat-form-container input[type='text'] {

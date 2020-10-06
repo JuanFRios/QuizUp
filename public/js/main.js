@@ -15,26 +15,27 @@ const answer4 = document.getElementById('answer4');
 const winnerImg = document.getElementById('winner-img');
 const equalsImg = document.getElementById('equals-img');
 const answers = [answer1, answer2, answer3, answer4];
+const good = document.getElementById('good');
+const bad = document.getElementById('bad');
 
 document.getElementById('countdown').style.display = 'inline';
+document.getElementById('imgTimer').style.display = 'none';
 finJuego.style.display = 'none';
 answer2.style.display = 'none';
 answer3.style.display = 'none';
 answer4.style.display = 'none';
 answer1.style.display = 'none';
 playButton.disabled = true;
-var tiempoTotal = 5;
+var tiempoTotal = 7;
 contQues = 7;
 var a;
 var b;
 regresiveCount = 0;
 
-
 answers[0].addEventListener("click", buena);
 answers[1].addEventListener("click", mala);
 answers[2].addEventListener("click", mala);
 answers[3].addEventListener("click", mala);
-
 
 function group(info) {
   grid = [];
@@ -46,9 +47,6 @@ function group(info) {
 usersGr = group(0);
 pointsgr = group(1);
 avatarGr = group(2)
-console.log('nombres' + usersGr)
-console.log('puntaje' + pointsgr)
-console.log('avatares' + avatarGr)
 
 //htmlusuarios[2][0].children[0].children[0].textContent = "MAMOR3"
 
@@ -86,6 +84,7 @@ socket.on('ganador', users => {
   finJuego.style.display = 'inline';
   preguntas.style.display = 'none';
   document.getElementById('countdown').style.display = 'none';
+  document.getElementById('imgTimer').style.display = 'none';
   clearInterval(a);
   clearInterval(b)
   let max = -300000;
@@ -104,13 +103,18 @@ socket.on('ganador', users => {
     console.log('gano ' + ganador)
     winnerImg.style.display = 'inline';
   }
-  
+
 });
 
 //Nueva pregunta con las opciones desordenadas
 socket.on('newQuestion', data => {
+  answers[0].style.backgroundColor = 'white';
+  answers[1].style.backgroundColor = 'white';
+  answers[2].style.backgroundColor = 'white';
+  answers[3].style.backgroundColor = 'white';
   preguntas.style.display = 'inline';
   document.getElementById('countdown').style.display = 'inline';
+  document.getElementById('imgTimer').style.display = 'inline';
   answers.sort(function () { return 0.5 - Math.random() })
   answers[0].removeEventListener("click", mala);
   answers[0].addEventListener("click", buena);
@@ -120,7 +124,6 @@ socket.on('newQuestion', data => {
   answers[2].addEventListener("click", mala);
   answers[3].removeEventListener("click", buena);
   answers[3].addEventListener("click", mala);
-  document.querySelector("#difficulty").innerHTML = `Difficulty: ${data.difficulty}`
   document.querySelector("#question").innerHTML = `Question: ${data.question}`
   answers[0].innerHTML = `${data.correct_answer}`
   answers[1].innerHTML = `${data.incorrect_answers[0]}`
@@ -137,6 +140,10 @@ socket.on('newQuestion', data => {
   finJuego.style.display = 'none';
   winnerImg.style.display = 'none';
   equalsImg.style.display = 'none';
+  good.style.display = 'none';
+  bad.style.display = 'none';
+  good.style.visibility = "hidden";
+  bad.style.visibility = "hidden";
   tiempoTotal = 5;
 });
 
@@ -189,6 +196,7 @@ function outputUsers(users) {
   while (i <= 3) {
     usersGr[i].textContent = '';
     pointsgr[i].textContent = '';
+    avatarGr[i].style.visibility = "hidden";
     i++;
   }
   for (i = 0; i < users.length; i++) {
@@ -196,9 +204,8 @@ function outputUsers(users) {
     li.innerText = users[i].username;
     usersGr[i].textContent = users[i].username;
     pointsgr[i].textContent = users[i].puntaje;
-    avatarGr[i].style.visibility="visible";
+    avatarGr[i].style.visibility = "visible";
     userList.appendChild(li);
-    console.log('entro a '+i);
   }
 }
 
@@ -208,6 +215,8 @@ function mala() {
   answer2.disabled = true;
   answer3.disabled = true;
   answer4.disabled = true;
+  bad.style.visibility = "visible";
+  bad.style.display = 'inline';
   socket.emit('respuestaMala', regresiveCount)
 }
 
@@ -218,18 +227,22 @@ function buena() {
   answer3.disabled = true;
   answer4.disabled = true;
   socket.emit('respuestaBuena', regresiveCount);
+  answers[0].style.backgroundColor = "green";
+  good.style.visibility = "visible";
+  good.style.display = 'inline';
+  console.log("verde");
 }
 
 function play() {
   contQues = 7
-  a = setInterval(next, 5000);
+  a = setInterval(next, 7000);
   b = setInterval(reloj, 1000);
   socket.emit('playQuiz');
 }
 
 //Next question
 function next() {
-  tiempoTotal = 5;
+  tiempoTotal = 7;
   contQues = contQues - 1;
   if (contQues >= 0) {
     socket.emit('nextQuestion');
@@ -248,4 +261,5 @@ function reloj() {
   tiempoTotal -= 1;
   socket.emit('enviarTiempo', tiempoTotal);
 }
+
 

@@ -11,11 +11,6 @@ const io = socketio(server);
 const users = [];
 const questions = {}
 
-// app.use(cors()) 
-// app.get('/', (req, res) => {
-//   res.json({data:"daniel"})
-//   res.send('Hello World!')
-// })
 
 server.listen(process.env.PORT || 3000);
 console.log('Servidor en ejecucion...');
@@ -24,7 +19,7 @@ const botName = 'QuizUP';
 
 // Join user to chat
 function userJoin(id, username, room, puntaje, flag) {
-  const user = { id, username, room, puntaje, flag };
+  const user = { id, username, room, puntaje, flag};
   users.push(user);
   console.log('Nueva conexión: %s sockets conectados', users.length);
   return user;
@@ -155,7 +150,7 @@ io.on('connection', socket => {
   //Actualiza el puntaje cuando una respuesta es correcta
   socket.on('respuestaBuena', (time) => {
     const user = getCurrentUser(socket.id);
-    user.puntaje += 2 * time;
+    user.puntaje += 2 * time - 1;
     user.flag = 1;
     io.to(user.room).emit('roomUsers', {
       room: user.room,
