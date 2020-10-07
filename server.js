@@ -137,6 +137,9 @@ io.on('connection', socket => {
         const users = getRoomUsers(user.room)
         io.in(user.room).emit('ganador', users);
         io.in(user.room).emit('readyToPlay', false)
+        if(users.length<4){
+          salasEnJuego[user.room] = 0;
+        }
       }
     }
     catch (error) {
@@ -194,6 +197,9 @@ io.on('connection', socket => {
           questions[user.room] = 0
           io.in(user.room).emit('ganador', numUser);
           io.in(user.room).emit('readyToPlay', true)
+          if(users.length<4){
+            salasEnJuego[user.room] = 0;
+          }
         }
       }
 
