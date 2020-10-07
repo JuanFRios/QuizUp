@@ -15,6 +15,8 @@ const answer4 = document.getElementById('answer4');
 const winnerImg = document.getElementById('winner-img');
 const equalsImg = document.getElementById('equals-img');
 const answers = [answer1, answer2, answer3, answer4];
+const container = document.getElementById('container');
+const fullRoom = document.getElementById('fullRoom');
 const good = document.getElementById('good');
 const bad = document.getElementById('bad');
 
@@ -48,14 +50,19 @@ usersGr = group(0);
 pointsgr = group(1);
 avatarGr = group(2)
 
-//htmlusuarios[2][0].children[0].children[0].textContent = "MAMOR3"
-
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
 const socket = io();
+
+socket.on('salaLlena',() => {
+  container.style.display='none';
+  fullRoom.style.display='inline';
+  fullRoom.style.visibility='visible';
+
+});
 
 // Join chatroom
 socket.emit('joinRoom', { username, room });

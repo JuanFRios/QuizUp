@@ -23,9 +23,13 @@
       <a class="btn btn-light" href="index.html" role="button">Leave Room</a>
     </nav>
 
-    <div class="container">
-      <div class="row">
+    <div id="fullRoom">
+      <h2>The room is full or there is a game in play, please exit</h2>
+      <img src="/img/Error.gif">
+    </div>
 
+    <div class="container" id="container">
+      <div class="row">
         <div class="col-2" style="height: 510px;">
           <main class="chat-main">
 
@@ -94,13 +98,13 @@
             <div class="game">
               <div class="board">
                 <div>
-                  <img id= 'imgTimer' src="/img/timer.png">
+                  <img id='imgTimer' src="/img/timer.png">
                   <h1 id="countdown"></h1>
                   <!-- <button onclick="next()" id="next">NEXT</button> -->
                   <button onclick="play()" id="play" class='btn btn-light '>
                     <i class="fas fa-play"></i> PLAY!</button>
                 </div>
-                
+
                 <div id="preguntas">
                   <p id="category"></p>
                   <p id="difficulty"></p>

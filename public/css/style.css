@@ -64,7 +64,8 @@ input {
 
 .grid-container-join {
 	font-family: 'Oswald', sans-serif;
-	margin-top: 60px;
+	margin-top: 95px;
+	margin-left: 35px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-template-rows: 1fr;
@@ -213,6 +214,14 @@ input {
 /* End Navbar */
 
 /*Game container*/
+
+#fullRoom{
+	margin: 2px;
+	visibility: hidden;
+	display: none;
+	font-family: 'Oswald', sans-serif;
+	color: black;
+}
 
 .grid-container {
 	justify-content: center;

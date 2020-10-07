@@ -10,6 +10,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 const users = [];
 const questions = {}
+const salasEnJuego = {'Geography': 0, 'Sports': 0, 'History': 0, 'Politics': 0, 'Art': 0, 'Animals': 0 }
 
 
 server.listen(process.env.PORT || 3000);
@@ -19,7 +20,7 @@ const botName = 'QuizUP';
 
 // Join user to chat
 function userJoin(id, username, room, puntaje, flag) {
-  const user = { id, username, room, puntaje, flag};
+  const user = { id, username, room, puntaje, flag };
   users.push(user);
   console.log('Nueva conexión: %s sockets conectados', users.length);
   return user;
@@ -45,37 +46,42 @@ function getRoomUsers(room) {
 }
 
 io.on('connection', socket => {
+
   socket.on('joinRoom', ({ username, room }) => {
-    const user = userJoin(socket.id, username, room, 0, 0);
-    socket.join(user.room);
 
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to QuizUp!'));
-    if (getRoomUsers(user.room).length >= 2) {
-      io.in(user.room).emit('readyToPlay', false);
-    };
+    if (getRoomUsers(room).length < 4 && salasEnJuego[room] == 0) {
+      const user = userJoin(socket.id, username, room, 0, 0);
+      socket.join(user.room);
 
-    // Broadcast when a user connects
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} has joined the chat`)
-      );
+      // Welcome current user
+      socket.emit('message', formatMessage(botName, 'Welcome to QuizUp!'));
+      if (getRoomUsers(user.room).length >= 2) {
+        io.in(user.room).emit('readyToPlay', false);
+      };
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    });
+      // Broadcast when a user connects
+      socket.broadcast
+        .to(user.room)
+        .emit(
+          'message',
+          formatMessage(botName, `${user.username} has joined the chat`)
+        );
 
-
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    } else {
+      socket.emit('salaLlena');
+    }
   });
 
   //Inicia el juego genera 7 preguntas y las va eliminando
   socket.on('playQuiz', () => {
     const user = getCurrentUser(socket.id);
     const room = user.room;
+    salasEnJuego[room] = 1;
     const users = getRoomUsers(user.room);
     users.forEach(i => {
       i.puntaje = 0;
@@ -196,6 +202,10 @@ io.on('connection', socket => {
         room: user.room,
         users: getRoomUsers(user.room)
       });
+
+      if (getRoomUsers(user.room).length == 0) {
+        salasEnJuego[user.room] = 0;
+      }
     }
   });
 
