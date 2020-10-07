@@ -103,11 +103,10 @@ socket.on('ganador', users => {
   });
   ganador = users.filter(user => user.puntaje == max)
   if (ganador.length > 1) {
-    ganador1.innerHTML = `Empate`
+    ganador1.innerHTML = `Tie`
     equalsImg.style.display = 'inline';
   } else {
-    ganador1.innerHTML = `El ganador es: ${ganador[0].username}`
-    console.log('gano ' + ganador)
+    ganador1.innerHTML = `The winner is: ${ganador[0].username}`
     winnerImg.style.display = 'inline';
   }
 
