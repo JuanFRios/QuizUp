@@ -144,7 +144,7 @@ socket.on('newQuestion', data => {
   bad.style.display = 'none';
   good.style.visibility = "hidden";
   bad.style.visibility = "hidden";
-  tiempoTotal = 5;
+  tiempoTotal = 7;
 });
 
 // Message submit
